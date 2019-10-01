@@ -2,13 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>JS Drum Kit</title>
+  <title>JS MUSIC BOX</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+	<div class="music-box__container">
 
-  <div class="keys">
+	<div class="controls">
+		<button class="auto-drums">AutoPlay Drums</button>
+	</div>
+
+  <div class="drum-kit__keys">
     <div data-key="65" class="key">
       <kbd>A</kbd>
       <span class="sound">clap</span>
@@ -45,7 +50,9 @@
       <kbd>L</kbd>
       <span class="sound">tink</span>
     </div>
-  </div>
+	</div>
+	
+</div>
 
   <audio data-key="65" src="sounds/clap.wav"></audio>
   <audio data-key="83" src="sounds/hihat.wav"></audio>
@@ -61,6 +68,18 @@
 	window.addEventListener('keydown', playSound);
 	const keys = document.querySelectorAll('.key');
 	keys.forEach(k => k.addEventListener('transitionend', removeTransition));
+
+	const autoDrums = document.querySelector('.auto-drums');
+	autoDrums.addEventListener('click', () => autoPlay('drums'));
+
+	async function autoPlay(name) {
+		let max, min;
+		if (name === 'drums') max = 83, min = 65;
+		for (let i=0; i<500; i++) {
+			let rand = Math.floor(Math.random() * (max - min + 1) + min);
+			setTimeout(() =>  playSound({keyCode: rand}), i*100);
+		}
+	}
 
 	function playSound({keyCode}) {
 		const audio = document.querySelector(`audio[data-key="${keyCode}"]`);
