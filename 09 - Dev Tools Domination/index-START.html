@@ -18,28 +18,102 @@
     }
 
     // Regular
+		console.log('basic console log');
 
     // Interpolated
+		console.log('old %s interpolated string', 'SCHOOL');
 
     // Styled
+		console.log('this is %c styled console log', 'background:palevioletred; color:papayawhip');
 
     // warning!
+		console.warn('DANGER WARNING CAUTION');
 
     // Error :|
+		console.error('custom error messaging');
 
     // Info
+		console.info('it\'s monday again, it\'s always monday');
 
     // Testing
+		console.assert(1===2, 'FALSE');
 
     // clearing
+		console.clear();
 
     // Viewing DOM Elements
+		const p = document.querySelector('p');
+		console.dir(p);
 
     // Grouping together
+		dogs.forEach(d => {
+			// console.group(`${d.name}`)
+			console.groupCollapsed(`${d.name}`);
+			console.log(`this is ${d.name}`);
+			console.log(`${d.name} is ${d.age} years old`);
+			console.log(`${d.name} is ${d.age * 7} dog years old`);
+			console.groupEnd(`${d.name}`);
+		});
 
     // counting
+		console.count('yin');
+		console.count('yin');
+		console.count('yin');
+		console.count('yang');
+		console.count('yang');
+		console.count('yin');
 
-    // timing
+			//table
+			console.table(dogs);
+
+    
+		// IIFE
+		// you may use a unary operator in front of a function DECLARATION to make it into a function EXPRESSION
+		// ex >> void, !, ~, +, -
+		// void async function getData() {
+		// ! async function getData() {
+		// ~ async function getData() {
+		// + async function getData() {
+		// - async function getData() {
+		// wrapping the whole function in parens is more popular
+		(async function getData() {
+			try {
+				// timing
+				console.time('getData()')
+				const res = await fetch('https://api.github.com/users/wesbos')
+        console.log(res);
+				console.timeEnd('getData()');
+			} catch(err) {
+				console.error('getData()', err)
+				console.timeEnd('getData()');
+			}
+		}()) // this is the crockford way
+		// })() << this is dogballs, don't do this
+
+		const sequence = (function seqIIFE() {
+			let current = 0;
+			return {
+				getCurrentValue: () => current,
+				getNextValue: () => ++current
+			}
+		}());
+		console.log({sequence});
+		console.log('currentValue',sequence.getCurrentValue());
+		console.log(sequence.getNextValue());
+		console.log(sequence.getNextValue());
+		console.log('currentValue',sequence.getCurrentValue());
+
+		// IIFE can also be written without wrapping parens when it is clearly an expression
+		// this is not recommended as the wrapping parens clearly signal an IIFE
+		const altSequence = function seqIIFE() {
+			let current = 0;
+			return {
+				getCurrentValue: () => current,
+				getNextValue: () => ++current
+			}
+		}();
+		console.log({altSequence});
+	
 
   </script>
 </body>

@@ -5,14 +5,82 @@
   <title>HTML5 Canvas</title>
 </head>
 <body>
+	<button id="saveButton">Save</button>
+	<div class="myDrawings"></div>
+	<img src="https://images.unsplash.com/photo-1568274602483-355d7fbba69c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1055&q=80" alt="">
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
+	let isDrawing = false;
+	let lastX = 0;
+	let lastY = 0;
+	let hue = 0;
+
+	const canvas = document.querySelector('#draw');
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+	canvas.addEventListener('mousemove', draw);
+	canvas.addEventListener('mousedown', (e) => {
+		isDrawing = true;
+		[lastX, lastY] = [e.offsetX, e.offsetY];
+	});
+	canvas.addEventListener('mouseup', () => isDrawing = false);
+	canvas.addEventListener('mouseout', () => isDrawing = false);
+
+	const ctx = canvas.getContext('2d');
+	ctx.lineJoin = 'round';
+	ctx.lineCap = 'round';
+	ctx.lineWidth = 4;
+	// ctx.globalCompositeOperation = 'hue';
+	// ctx.globalCompositeOperation = 'luminosity';
+	// ctx.globalCompositeOperation = 'color';
+	// ctx.globalAlpha = 1;
+	direction = true;
+
+	function draw(e) {
+		if (!isDrawing) return;
+		// console.log(e)
+		ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+		ctx.beginPath();
+		//start from
+		ctx.moveTo(lastX, lastY);
+		//go to
+		ctx.lineTo(e.offsetX, e.offsetY);
+		ctx.stroke();
+		[lastX, lastY] = [e.offsetX, e.offsetY];
+		// hue++;
+		// if (hue >= 360) hue = 0;
+		// if (ctx.lineWidth > 100 || ctx.lineWidth <= 1) direction = !direction;
+		// direction ? ctx.lineWidth++ : ctx.lineWidth--;
+	}
+
+	const myDrawings = document.querySelector('.myDrawings');
+	const saveButton = document.getElementById('saveButton');
+	saveButton.addEventListener('click', saveDrawing);
+	const myURLs = [];
+
+	function saveDrawing(e) {
+		const dataUrl = canvas.toDataURL();
+		myURLs.push(dataUrl);
+		const imgTags = myURLs.map(u => `<img src="${u}" alt="${u}">`).join('');
+		myDrawings.innerHTML = imgTags;
+		// console.log(imgTags)
+	}
+
+
 </script>
 
 <style>
   html, body {
     margin: 0;
-  }
+	}
+	
+	img {
+		position:fixed;
+	}
+
+	canvas {
+		position:fixed;
+	}
 </style>
 
 </body>
