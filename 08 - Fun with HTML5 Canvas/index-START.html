@@ -7,9 +7,28 @@
 <body>
 	<button id="saveButton">Save</button>
 	<div class="myDrawings"></div>
-	<img src="https://images.unsplash.com/photo-1568274602483-355d7fbba69c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1055&q=80" alt="">
+	<!-- <img src="https://images.unsplash.com/photo-1568274602483-355d7fbba69c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1055&q=80" alt=""> -->
 <canvas id="draw" width="800" height="800"></canvas>
+<canvas id="tree" width="600" height="300"></canvas>
 <script>
+//from eloquentJS
+let treeCtx = document.querySelector("#tree").getContext("2d");
+function branch(length, angle, scale) {
+    treeCtx.fillRect(0, 0, 1, length);
+    if (length < 8) return;
+    treeCtx.save();
+    treeCtx.translate(0, length);
+    treeCtx.rotate(-angle);
+    branch(length * scale, angle, scale);
+    treeCtx.rotate(2 * angle);
+    branch(length * scale, angle, scale);
+    treeCtx.restore();
+  }
+  treeCtx.translate(300, 0);
+  branch(60, .2, 0.8);
+
+
+
 	let isDrawing = false;
 	let lastX = 0;
 	let lastY = 0;
