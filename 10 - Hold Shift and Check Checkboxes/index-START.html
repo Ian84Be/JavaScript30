@@ -96,6 +96,49 @@
   </div>
 
 <script>
+	let shiftState = false;
+	let checkState = {
+		startIndex:null,
+		endIndex:null
+	};
+
+	const checkboxes = [...document.querySelectorAll('input[type=checkbox]')];
+	checkboxes.forEach(i => i.addEventListener('click', handleClick));
+
+	function handleClick(e) {
+		const thisIndex = checkboxes.findIndex(i => i === e.target);
+		if (checkState.startIndex === null) {
+			checkState.startIndex = thisIndex;
+		} else if (checkState.startIndex !== null && shiftState) {
+			checkState.endIndex = thisIndex;
+		}
+		return checkState.endIndex !== null ? selectRange(checkState.startIndex, checkState.endIndex) : null;
+	}
+
+	function selectRange(a, b) {
+		let start, end;
+		if (a > b) {
+			start = b;
+			end = a;
+		} else {
+			start = a;
+			end = b;
+		}
+		for (let i = start; i <= end; i++) {
+			checkboxes[i].checked = true;
+		}
+		return checkState = {
+			startIndex:null,
+			endIndex:null
+		};
+	}
+
+	window.addEventListener('keydown', handleShift);
+	window.addEventListener('keyup', handleShift);
+	function handleShift(e) {
+		if (e.key === 'Shift') shiftState = !shiftState;
+	}
+
 </script>
 </body>
 </html>
