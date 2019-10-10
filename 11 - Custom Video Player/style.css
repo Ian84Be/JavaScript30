@@ -74,6 +74,16 @@ body {
   background: rgba(0,0,0,0.1);
 }
 
+.player__controls svg {
+	align-self: center;
+	flex:0.25;
+	margin:0;
+	padding:0;
+	stroke:white;
+	fill:white;
+	cursor:pointer;
+}
+
 .player:hover .player__controls {
   transform: translateY(0);
 }
