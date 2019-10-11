@@ -44,19 +44,47 @@
 
   <script>
     function debounce(func, wait = 20, immediate = true) {
-      var timeout;
+			let timeout;
+			
       return function() {
-        var context = this, args = arguments;
-        var later = function() {
+				let context = this, args = arguments;
+				
+        let later = function() {
           timeout = null;
           if (!immediate) func.apply(context, args);
-        };
-        var callNow = immediate && !timeout;
+				};
+				
+				let callNow = immediate && !timeout;
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
         if (callNow) func.apply(context, args);
       };
     }
+
+		const sliderImages = document.querySelectorAll('.slide-in');
+
+		window.addEventListener('scroll', debounce(checkSlide));
+
+		function checkSlide(e) {
+			sliderImages.forEach(i => {
+				//this is the pixel location of the BOTTOM of the VIEWPORT
+				// console.log('(window.scrollY + window.innerHeight)', (window.scrollY + window.innerHeight))
+
+				//this is the pixel location of the TOP of the IMAGE element 
+				// console.log('i.offsetTop', i.offsetTop);
+
+				//this is the pixel location of the vertical MIDDLE of the IMAGE element
+				const slideInAt = (window.scrollY + window.innerHeight) - i.height / 2;
+
+				//this is the pixel location of the BOTTOM of the IMAGE element 
+				const imageBottom = i.offsetTop + i.height;
+
+				const isHalfShown = slideInAt > i.offsetTop;
+				const isNotScrolledPast = window.scrollY < imageBottom;
+				if (isHalfShown && isNotScrolledPast) i.classList.add('active');
+				else i.classList.remove('active');
+			})
+		}
 
   </script>
 
